@@ -1,9 +1,6 @@
-import { SHARED_CHROME_URL, useSharedChrome } from "./hooks/useSharedChrome";
+import chrome from "./shared/chrome.json";
 
 const Header = () => {
-  const { chrome, isLoading } = useSharedChrome();
-  if (isLoading) return;
-
   return (
     <div
       className="top-0 left-0 z-50 fixed w-full"
@@ -14,9 +11,6 @@ const Header = () => {
 };
 
 const Footer = () => {
-  const { chrome, isLoading } = useSharedChrome();
-  if (isLoading) return;
-
   return (
     <div
       dangerouslySetInnerHTML={{ __html: chrome?.footer_html ?? "" }}
@@ -26,9 +20,6 @@ const Footer = () => {
 };
 
 function App() {
-  const { chrome, error, isLoading } = useSharedChrome();
-  const stylesheetCount = chrome?.stylesheets.length ?? 0;
-
   return (
     <div className="bg-white pt-[77px] min-h-screen text-slate-950">
       <Header />
@@ -42,23 +33,15 @@ function App() {
             Dynamic asset injection in a Vite app
           </h1>
           <p className="max-w-2xl text-slate-600 text-lg">
-            This page fetches a remote chrome manifest, injects its styles and
-            head markup, and renders the shared header and footer around local
-            app content.
+            This page uses a manifest fetched before dev and build, emits its
+            head assets through Vite, and renders the shared header and footer
+            around local app content.
           </p>
         </div>
 
         <section className="bg-slate-50 p-4 border border-slate-200 rounded-2xl">
           <p className="font-medium text-slate-900">Status</p>
-          <p className="mt-2 text-slate-600">
-            {isLoading && "Loading shared chrome..."}
-            {!isLoading && error && `Unable to load shared chrome: ${error}`}
-            {!isLoading &&
-              !error &&
-              `Loaded ${stylesheetCount} stylesheet URL${
-                stylesheetCount === 1 ? "" : "s"
-              } from ${SHARED_CHROME_URL}`}
-          </p>
+          <p className="mt-2 text-slate-600">{"✅"} Loaded</p>
         </section>
       </main>
 
