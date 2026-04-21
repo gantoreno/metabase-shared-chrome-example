@@ -1,4 +1,4 @@
-import chrome from "./shared/chrome.json";
+import chrome from "./generated/chrome.json" with { type: "json" };
 
 const Header = () => {
   return (
